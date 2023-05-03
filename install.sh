@@ -5,6 +5,7 @@ sudo apt-get -y upgrade
 
 sudo apt-get install -y python3-pip
 sudo apt-get install -y python-pip
+sudo apt-get install -y ruby-full
 sudo apt-get install -y git
 sudo apt-get install -y xargs
 sudo apt-get install -y jq
@@ -26,6 +27,7 @@ echo "installing bash_profile aliases from recon_profile"
 git clone https://github.com/nahamsec/recon_profile.git
 cd recon_profile
 cat .bash_profile >> ~/.bash_profile
+sleep 1
 source ~/.bash_profile
 cd ..
 sudo rm -r recon_profile
@@ -40,26 +42,20 @@ echo "installing subfinder"
 go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 echo "done"
 
-# Install JSParser
-echo "installing JSParser"
-git clone https://github.com/nahamsec/JSParser.git
-cd JSParser*
-sudo python setup.py install
-cd ~/tools/
-echo "done"
-
 # Install WPScan
 echo "installing wpscan"
-git clone https://github.com/wpscanteam/wpscan.git
-cd wpscan*
-sudo gem install bundler && bundle install --without test
-cd ~/tools/
+sudo gem install wpscan
 echo "done"
 
 # Install dirsearch
 echo "installing dirsearch"
 git clone https://github.com/maurosoria/dirsearch.git
 cd ~/tools/
+echo "done"
+
+# Install amass
+echo "installing amass"
+go install -v github.com/owasp-amass/amass/v3/...@master
 echo "done"
 
 # Install massdns
@@ -74,5 +70,9 @@ echo "done"
 echo "installing httprobe"
 go get -u github.com/tomnomnom/httprobe 
 echo "done"
+
+# Clear up
+cd ~/
+sudo rm -r BBB-Script.git
 
 
