@@ -70,8 +70,8 @@ sudo snap install amass
 wget https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall
 
 # Install and move Go to $PATH environment, then upgrade packages
-wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go && tar -C /usr/local/ -xzf go1.21.1.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.17.6.linux-amd64.tar.gz
+tar -xvf go1.17.6.linux-amd64.tar.gz
 chown -R root:root ./go
 mv go /usr/local
 go get -u ./...
