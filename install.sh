@@ -130,9 +130,6 @@ sudo rm -r nuclei/
 sudo rm -r nuclei-templates/
 sudo rm -r snap/
 
-# Add crt.sh shortcut to /bin to allow it use within bash scripts
-echo curl -s https://crt.sh/?Identity=%.$1 | grep ">*.$1" | sed 's/<[/]*[TB][DR]>/\n/g' | grep -vE "<|^[\*]*[\.]*$1" | sort -u | awk 'NF' > /bin/crtsh
-sudo chmod +x /bin/crtsh
 
 
 
