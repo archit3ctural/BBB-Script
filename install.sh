@@ -123,11 +123,10 @@ cd ~
 git clone https://github.com/danielmiessler/SecLists/
 
 # Clean up home directory
-cd ~
+cd ~/
 sudo rm -r BBB-Script/
 sudo rm -r go/
 sudo rm -r nuclei/
-sudo rm -r nuclei-templates/
 sudo rm -r snap/
 
 
