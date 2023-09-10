@@ -70,31 +70,26 @@ sudo snap install amass
 wget https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall
 
 # Install and move Go to $PATH environment, then upgrade packages
-wget https://dl.google.com/go/go1.13.5.linux-amd64.tar.gz
-sudo tar -C /usr/local/ -xzf go1.13.5.linux-amd64.tar.gz
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-echo 'export GOROOT=/usr/local/go' >> ~/.bash_profile
-echo 'export GOPATH=$HOME/go'	>> ~/.bash_profile			
-echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH\n' >> ~/.bash_profile	
-source ~/.bash_profile
+wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && tar -C /usr/local/ -xzf go1.21.1.linux-amd64.tar.gz
+chown -R root:root ./go
+mv go /usr/local
 go get -u ./...
 
 # Install nuclei
 go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
-
-# Install aquatone then move to the /bin directory
-git clone https://github.com/michenriksen/aquatone.git
-unzip aquatone* aquatone
-sudo chmod +x aquatone 
-sudo mv aquatone /usr/bin
 
 # Install dnmasscan using git clone then move to the /bin directory
 git clone https://github.com/rastating/dnmasscan.git
 cd dnmasscan/
 sudo chmod +x dnmasscan 
 sudo mv dnmasscan /usr/bin/
+
+# Install aquatone then move to the /bin directory
+curl -s https://api.github.com/repos/michenriksen/aquatone/releases/latest | grep "browser_download_url.*linux_amd64-*" | cut -d : -f 2,3 | tr -d \" | wget -i -
+unzip aquatone* aquatone
+chmod +x aquatone 
+sudo mv aquatone /usr/bin
 
 # Install ffuf then move to the /bin directory
 curl -s https://api.github.com/repos/ffuf/ffuf/releases/latest | grep "browser_download_url.*linux_amd64.tar.gz" | cut -d : -f 2,3 | tr -d \" | wget -i -
