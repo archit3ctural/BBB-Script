@@ -4,7 +4,73 @@
 sudo apt-get -y update
 sudo apt-get -y upgrade
 
-# Install and move Go to $PATH environment
+# Create home directories
+mkdir $HOME/{Downloads,Tools,Scripts}
+
+# Store packages to be installed into packages.txt
+cd Downloads
+
+echo "apt-transport-https \
+ca-certificates \
+cewl \
+chromium-browser \
+curl \
+default-jdk \
+default-jdk \
+docker \
+docker-compose \
+git \
+gnupg \
+gnupg \
+gobuster \
+hashcat \
+htop \
+hydra \
+john \
+libcap2-bin \
+lsb-release \
+masscan \
+mlocate \
+nbtscan \
+net-tools \
+net-tools \
+nfs-common \
+nfs-kernel-server \
+nikto \
+nmap \
+openvpn \
+p7zip-full \
+p7zip-rar \
+python3-impacket \
+python3-pip \
+remmina \
+ruby-full \
+ruby-railties \
+software-properties-common \
+squid \
+tmux \
+traceroute \
+tree \
+tshark \
+vim \
+vlc \
+wfuzz \
+whois \
+wireguard \
+wireguard-tools \
+zsh
+" > packages.txt
+
+# Install packages in packages.txt
+cat packages.txt | xargs sudo apt-get install -y
+
+# Install amass using snap
+sudo snap install amass   
+
+# Install metasploit
+wget https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall
+
+# Install and move Go to $PATH environment, then upgrade packages
 wget https://dl.google.com/go/go1.13.5.linux-amd64.tar.gz
 sudo tar -C /usr/local/ -xzf go1.13.5.linux-amd64.tar.gz
 export GOROOT=/usr/local/go
@@ -14,34 +80,42 @@ echo 'export GOROOT=/usr/local/go' >> ~/.bash_profile
 echo 'export GOPATH=$HOME/go'	>> ~/.bash_profile			
 echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH\n' >> ~/.bash_profile	
 source ~/.bash_profile
+go get -u ./...
 
-# Install other dependencies
-sudo apt-get install -y jq
-sudo apt-get install -y python3-pip
-sudo apt-get install -y python-pip
-sudo apt-get install -y rename
+# Install nuclei
+go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
 
+# Install aquatone then move to the /bin directory
+git clone https://github.com/michenriksen/aquatone.git
+unzip aquatone* aquatone
+sudo chmod +x aquatone 
+sudo mv aquatone /usr/bin
 
-# Install GoSpider
-GO111MODULE=on go install github.com/jaeles-project/gospider@latest
+# Install dnmasscan using git clone then move to the /bin directory
+git clone https://github.com/rastating/dnmasscan.git
+cd dnmasscan/
+sudo chmod +x dnmasscan 
+sudo mv dnmasscan /usr/bin/
 
-# Install Hakrawler
-GO111MODULE=on go install github.com/hakluke/hakrawler@latest
+# Install ffuf then move to the /bin directory
+curl -s https://api.github.com/repos/ffuf/ffuf/releases/latest | grep "browser_download_url.*linux_amd64.tar.gz" | cut -d : -f 2,3 | tr -d \" | wget -i -
+tar xzf ffuf* ffuf
+chmod +x ffuf
+mv ffuf /usr/bin/
 
-# Install SubDomainizer
-TBC
+# Install httpx then move to the /bin directory
+curl -s https://api.github.com/repos/projectdiscovery/httpx/releases/latest | grep "browser_download_url.*linux_amd64.zip" | cut -d : -f 2,3 | tr -d \" | wget -i -
+unzip httpx* httpx
+chmod +x httpx
+mv httpx /usr/bin/
 
-# Install Subscraper
-git clone https://github.com/m8sec/subscraper
-cd subscraper
-python3 setup.py install
-
-# Install Amass
-GO111MODULE=on go install -v github.com/owasp-amass/amass/v3/...@master
-
+# Install subfinder then move to the /bin directory
+curl -s https://api.github.com/repos/projectdiscovery/subfinder/releases/latest | grep "browser_download_url.*linux_amd64.zip" | cut -d : -f 2,3 | tr -d \" | wget -i -
+unzip subfinder* subfinder
+chmod +x subfinder
+mv subfinder /usr/bin/
 
 # Add nahamsec aliases to bash_profile
-echo "installing bash_profile aliases from recon_profile"
 git clone https://github.com/nahamsec/recon_profile.git
 cd recon_profile
 cat .bash_profile >> ~/.bash_profile
@@ -49,7 +123,10 @@ sleep 1
 source ~/.bash_profile
 cd ..
 sudo rm -r recon_profile
-echo "done"
+
+# Add crt.sh shortcut to /bin to allow it use within bash scripts
+echo "curl -s https://crt.sh/?Identity=%.$1 | grep ">*.$1" | sed 's/<[/]*[TB][DR]>/\n/g' | grep -vE "<|^[\*]*[\.]*$1" | sort -u | awk 'NF'" > /bin/crtsh
+sudo chmod +x /bin/crtsh
 
 
 
