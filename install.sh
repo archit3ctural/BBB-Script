@@ -100,19 +100,19 @@ sudo mv dnmasscan /usr/bin/
 curl -s https://api.github.com/repos/ffuf/ffuf/releases/latest | grep "browser_download_url.*linux_amd64.tar.gz" | cut -d : -f 2,3 | tr -d \" | wget -i -
 tar xzf ffuf* ffuf
 chmod +x ffuf
-mv ffuf /usr/bin/
+sudo mv ffuf /usr/bin/
 
 # Install httpx then move to the /bin directory
 curl -s https://api.github.com/repos/projectdiscovery/httpx/releases/latest | grep "browser_download_url.*linux_amd64.zip" | cut -d : -f 2,3 | tr -d \" | wget -i -
 unzip httpx* httpx
 chmod +x httpx
-mv httpx /usr/bin/
+sudo mv httpx /usr/bin/
 
 # Install subfinder then move to the /bin directory
 curl -s https://api.github.com/repos/projectdiscovery/subfinder/releases/latest | grep "browser_download_url.*linux_amd64.zip" | cut -d : -f 2,3 | tr -d \" | wget -i -
 unzip subfinder* subfinder
 chmod +x subfinder
-mv subfinder /usr/bin/
+sudo mv subfinder /usr/bin/
 
 # Add nahamsec aliases to bash_profile
 git clone https://github.com/nahamsec/recon_profile.git
@@ -124,7 +124,7 @@ cd ..
 sudo rm -r recon_profile
 
 # Add crt.sh shortcut to /bin to allow it use within bash scripts
-echo "curl -s https://crt.sh/?Identity=%.$1 | grep ">*.$1" | sed 's/<[/]*[TB][DR]>/\n/g' | grep -vE "<|^[\*]*[\.]*$1" | sort -u | awk 'NF'" > /bin/crtsh
+echo "curl -s https://crt.sh/?Identity=%.$1 \| grep ">*.$1" \| sed 's/<[/]*[TB][DR]>/\n/g' \| grep -vE "<|^[\*]*[\.]*$1" \| sort -u \| awk 'NF'" > /bin/crtsh
 sudo chmod +x /bin/crtsh
 
 
