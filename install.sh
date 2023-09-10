@@ -67,13 +67,12 @@ cat packages.txt | xargs sudo apt-get install -y
 sudo snap install amass   
 
 # Install metasploit
-wget https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall
+sudo mv msfconsole /usr/bin/
+msfconsole -y
 
 # Install and move Go to $PATH environment, then upgrade packages
-wget https://golang.org/dl/go1.17.6.linux-amd64.tar.gz
-tar -xvf go1.17.6.linux-amd64.tar.gz
-chown -R root:root ./go
-mv go /usr/local
+sudo snap install go --classic
 go get -u ./...
 
 # Install nuclei
@@ -89,7 +88,7 @@ sudo mv dnmasscan /usr/bin/
 curl -s https://api.github.com/repos/michenriksen/aquatone/releases/latest | grep "browser_download_url.*linux_amd64-*" | cut -d : -f 2,3 | tr -d \" | wget -i -
 unzip aquatone* aquatone
 chmod +x aquatone 
-sudo mv aquatone /usr/bin
+sudo mv aquatone /usr/bin/
 
 # Install ffuf then move to the /bin directory
 curl -s https://api.github.com/repos/ffuf/ffuf/releases/latest | grep "browser_download_url.*linux_amd64.tar.gz" | cut -d : -f 2,3 | tr -d \" | wget -i -
