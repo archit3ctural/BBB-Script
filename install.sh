@@ -122,6 +122,10 @@ sudo rm -r recon_profile
 echo "curl -s https://crt.sh/?Identity=%.$1 \| grep ">*.$1" \| sed 's/<[/]*[TB][DR]>/\n/g' \| grep -vE "<|^[\*]*[\.]*$1" \| sort -u \| awk 'NF'" > /bin/crtsh
 sudo chmod +x /bin/crtsh
 
+# Clone SecLists repo
+cd ~
+git clone https://github.com/danielmiessler/SecLists/
+
 
 
 
