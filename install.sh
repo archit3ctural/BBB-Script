@@ -67,9 +67,7 @@ cat packages.txt | xargs sudo apt-get install -y
 sudo snap install amass   
 
 # Install metasploit
-curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall
-sudo mv msfconsole /usr/bin/
-msfconsole -y
+sudo snap install metasploit-framework
 
 # Install and move Go to $PATH environment, then upgrade packages
 sudo snap install go --classic
@@ -117,13 +115,15 @@ source ~/.bash_profile
 cd ..
 sudo rm -r recon_profile
 
+# Clone SecLists repo
+cd ~
+git clone https://github.com/danielmiessler/SecLists/
+
 # Add crt.sh shortcut to /bin to allow it use within bash scripts
 echo "curl -s https://crt.sh/?Identity=%.$1 \| grep ">*.$1" \| sed 's/<[/]*[TB][DR]>/\n/g' \| grep -vE "<|^[\*]*[\.]*$1" \| sort -u \| awk 'NF'" > /bin/crtsh
 sudo chmod +x /bin/crtsh
 
-# Clone SecLists repo
-cd ~
-git clone https://github.com/danielmiessler/SecLists/
+
 
 
 
