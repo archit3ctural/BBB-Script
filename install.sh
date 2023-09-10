@@ -74,7 +74,10 @@ sudo snap install go --classic
 go get -u ./...
 
 # Install nuclei
-go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+git clone https://github.com/projectdiscovery/nuclei.git
+cd nuclei/v2/cmd/nuclei/
+sudo go build .
+sudo mv nuclei /usr/local/bin/
 
 # Install dnmasscan using git clone then move to the /bin directory
 git clone https://github.com/rastating/dnmasscan.git
@@ -119,8 +122,16 @@ sudo rm -r recon_profile
 cd ~
 git clone https://github.com/danielmiessler/SecLists/
 
+# Clean up home directory
+cd ~
+sudo rm -r BBB-Script/
+sudo rm -r go/
+sudo rm -r nuclei/
+sudo rm -r nuclei-templates/
+sudo rm -r snap/
+
 # Add crt.sh shortcut to /bin to allow it use within bash scripts
-echo "curl -s https://crt.sh/?Identity=%.$1 \| grep ">*.$1" \| sed 's/<[/]*[TB][DR]>/\n/g' \| grep -vE "<|^[\*]*[\.]*$1" \| sort -u \| awk 'NF'" > /bin/crtsh
+echo curl -s https://crt.sh/?Identity=%.$1 | grep ">*.$1" | sed 's/<[/]*[TB][DR]>/\n/g' | grep -vE "<|^[\*]*[\.]*$1" | sort -u | awk 'NF' > /bin/crtsh
 sudo chmod +x /bin/crtsh
 
 
