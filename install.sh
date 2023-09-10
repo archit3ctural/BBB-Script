@@ -51,7 +51,6 @@ squid \
 tmux \
 traceroute \
 tree \
-tshark \
 vim \
 vlc \
 wfuzz \
