@@ -48,6 +48,7 @@ ruby-full \
 ruby-railties \
 software-properties-common \
 squid \
+unzip \
 tmux \
 traceroute \
 tree \
