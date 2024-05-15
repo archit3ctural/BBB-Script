@@ -13,7 +13,6 @@ cd Downloads
 echo "apt-transport-https \
 ca-certificates \
 cewl \
-chromium-browser \
 curl \
 default-jdk \
 default-jdk \
@@ -69,6 +68,9 @@ sudo snap install amass
 
 # Install metasploit
 sudo snap install metasploit-framework
+
+# Install chrome
+sudo snap install chromium
 
 # Install and move Go to $PATH environment, then upgrade packages
 sudo snap install go --classic
