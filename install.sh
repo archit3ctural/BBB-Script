@@ -60,6 +60,9 @@ wireguard-tools \
 zsh
 " > packages.txt
 
+# Install unzip
+sudo apt install unzip
+
 # Install packages in packages.txt
 cat packages.txt | xargs sudo apt-get install -y
 
